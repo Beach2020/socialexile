@@ -1,5 +1,19 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
+from .forms import DownVoteForm
+
+
+
 
 # Create your views here.
-def index(request):
-    return render_to_response('index.html')
+
+def downvote(request):
+    form = DownVoteForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = DownVoteForm()
+    
+    context = {
+        'form': form
+        
+    }
+    return render(request, "myapp/form_input.html", context)
